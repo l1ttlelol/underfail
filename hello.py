@@ -23,9 +23,13 @@ while not quit:
 		if event.type == pygame.QUIT:
 			screen.fill(Black)
 			quit = True
+
 	#Drawing on the window
 	screen.fill(White)
 	pygame.draw.line(screen, Green, [0, 0], [100, 100], 5)
+	y_offset = 0
+	for y_offset in range(0,100,10):
+		pygame.draw.line(screen,Red,[0,10+y_offset],[100,110+y_offset],5)
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
