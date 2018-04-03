@@ -16,15 +16,17 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("practice")
 quit = False
 clock = pygame.time.Clock()
-#Drwaring on the window
-screen.fill(White)
-pygame.display.flip()
-#quitting the window
+
+#quitting the window part 1
 while not quit:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			screen.fill(Black)
-			quit = True                 
-	pygame.display.flip()
+			quit = True
+	#Drawing on the window
+	screen.fill(White)
+	pygame.display.flip()		                 
+	
+	#quitting the window part 2
 	clock.tick(60)
 pygame.quit()
