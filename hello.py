@@ -8,7 +8,7 @@ Green = (0,255,0)
 Red = (255,0,0)
 Blue = (0,0,255)
 
-PI = 3.14159265
+PI = 3.141592653
 
 #creating the window
 size = (700,500)
