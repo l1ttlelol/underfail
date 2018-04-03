@@ -14,13 +14,13 @@ PI = 3.141592653
 size = (700,500)
 screen = pygame.display.set_mode(size) 
 pygame.display.set_caption("practice")
-done = False
+quit = False
 clock = pygame.time.Clock()
-while not done:
+while not quit:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			screen.fill(Black)
-			done = True                 
+			quit = True                 
 	pygame.display.flip()
 	clock.tick(60)
 pygame.quit()
