@@ -19,6 +19,7 @@ clock = pygame.time.Clock()
 while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
+			screen.fill(Black)
 			done = True                 
 	pygame.display.flip()
 	clock.tick(60)
