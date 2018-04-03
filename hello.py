@@ -25,6 +25,7 @@ while not quit:
 			quit = True
 	#Drawing on the window
 	screen.fill(White)
+	pygame.draw.line(screen, Green, [0, 0], [100, 100], 5)
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
