@@ -13,8 +13,8 @@ PI = 3.141592653
 #the variables of the game
 health = 100
 rect_x = 40
-rect_y = 40
-rect_change_x = 10
+rect_y = 140
+rect_change_x = 25
 rect_change_y = 0
 
 #creating the window
@@ -33,16 +33,21 @@ while not done:
 
 	#Drawing on the window
 	screen.fill(Black)
-	#pygame.draw.line(screen,White,[100,40],[health+100,40],10)
-	#pygame.draw.rect(screen,White,[20,20,70,70],7)
-	#font = pygame.font.SysFont('Calibri',25,True,False)
-	#text = font.render("Player",True,White)
-	#screen.blit(text,[95,60])
+	pygame.draw.line(screen,White,[100,40],[health+100,40],10)
+	pygame.draw.rect(screen,White,[20,20,70,70],7)
+	font = pygame.font.SysFont('Calibri',25,True,False)
+	text = font.render("Player",True,White)
+	screen.blit(text,[95,60])
 	pygame.draw.rect(screen, Red, [rect_x,rect_y,10,5])
 	rect_x += rect_change_x
 	rect_y += rect_change_y
-	rect_change_x += 1
-	rect_change_y += 0.5
+	rect_change_x -= 0.2
+	rect_change_y += 0.05
+	if rect_change_x < 1:
+		rect_change_x = 0
+		rect_change_y = 0
+	if rect_change_y > 4:
+		rect_change_y = 1
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
