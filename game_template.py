@@ -29,11 +29,12 @@ while not quit:
 
 	#Drawing on the window
 	screen.fill(Black)
-	pygame.draw.line(screen,White,[100,40],[health+100,40],10)
-	pygame.draw.rect(screen,White,[20,20,70,70],7)
-	font = pygame.font.SysFont('Calibri',25,True,False)
-	text = font.render("Player",True,White)
-	screen.blit(text,[95,60])
+	#pygame.draw.line(screen,White,[100,40],[health+100,40],10)
+	#pygame.draw.rect(screen,White,[20,20,70,70],7)
+	#font = pygame.font.SysFont('Calibri',25,True,False)
+	#text = font.render("Player",True,White)
+	#screen.blit(text,[95,60])
+	pygame.draw.rect(screen, Red, [40,130,20,10])
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
