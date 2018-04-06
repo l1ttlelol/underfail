@@ -12,20 +12,21 @@ PI = 3.141592653
 
 #the variables of the game
 health = 100
+rect_x = 40
 
 #creating the window
 size = (700,500)
 screen = pygame.display.set_mode(size) 
 pygame.display.set_caption("template")
-quit = False
+done = False
 clock = pygame.time.Clock()
 
 #quitting the window part 1
-while not quit:
+while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			screen.fill(Black)
-			quit = True
+			done = True
 
 	#Drawing on the window
 	screen.fill(Black)
@@ -34,7 +35,8 @@ while not quit:
 	#font = pygame.font.SysFont('Calibri',25,True,False)
 	#text = font.render("Player",True,White)
 	#screen.blit(text,[95,60])
-	pygame.draw.rect(screen, Red, [40,130,20,10])
+	pygame.draw.rect(screen, Red, [rect_x,40,10,5])
+	rect_x += 20
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
