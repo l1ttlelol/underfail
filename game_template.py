@@ -14,9 +14,11 @@ PI = 3.141592653
 health = 100
 rect_x = 40
 rect_y = 40
+rect_change_x = 10
+rect_change_y = 0
 
 #creating the window
-size = (700,500)
+size = (1400,1000)
 screen = pygame.display.set_mode(size) 
 pygame.display.set_caption("template")
 done = False
@@ -37,8 +39,10 @@ while not done:
 	#text = font.render("Player",True,White)
 	#screen.blit(text,[95,60])
 	pygame.draw.rect(screen, Red, [rect_x,rect_y,10,5])
-	rect_x += 5
-	rect_y += 4
+	rect_x += rect_change_x
+	rect_y += rect_change_y
+	rect_change_x += 1
+	rect_change_y += 0.5
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
