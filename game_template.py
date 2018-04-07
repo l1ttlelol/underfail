@@ -18,7 +18,7 @@ rect_change_x = 25
 rect_change_y = 0
 
 #creating the window
-size = (1400,1000)
+size = (1920,1080)
 screen = pygame.display.set_mode(size) 
 pygame.display.set_caption("template")
 done = False
@@ -41,13 +41,17 @@ while not done:
 	pygame.draw.rect(screen, Red, [rect_x,rect_y,10,5])
 	rect_x += rect_change_x
 	rect_y += rect_change_y
-	rect_change_x -= 0.2
-	rect_change_y += 0.05
-	if rect_change_x < 1:
-		rect_change_x = 0
-		rect_change_y = 0
-	if rect_change_y > 4:
-		rect_change_y = 1
+	#rect_change_x -= 0.2
+	#rect_change_y += 0.05
+	#if rect_change_x < 1:
+		#rect_change_x = 0
+		#rect_change_y = 0
+	#if rect_change_y > 4:
+		#rect_change_y = 1
+	if rect_y > 1030 or rect_y < -50:
+		rect_change_y = rect_change_y * -1
+	if rect_x > 1870 or rect_x < -50:
+		rect_change_x = rect_change_x * -1     
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2
