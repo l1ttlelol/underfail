@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 # The value for colors
@@ -7,13 +8,14 @@ White = (255,255,255)
 Green = (0,255,0)
 Red = (255,0,0)
 Blue = (0,0,255)
+Gray = (108,109,105)
 
 PI = 3.141592653
 
 #the variables of the game
 health = 100
-rect_x = 40
-rect_y = 140
+rect_x = random.randrange(240,1920)
+rect_y = random.randrange(0,1080)
 rect_change_x = 25
 rect_change_y = 0
 
@@ -33,6 +35,7 @@ while not done:
 
 	#Drawing on the window
 	screen.fill(Black)
+	pygame.draw.rect(screen,Gray,[0,0,240,1080])
 	pygame.draw.line(screen,White,[100,40],[health+100,40],10)
 	pygame.draw.rect(screen,White,[20,20,70,70],7)
 	font = pygame.font.SysFont('Calibri',25,True,False)
@@ -41,16 +44,20 @@ while not done:
 	pygame.draw.rect(screen, Red, [rect_x,rect_y,10,5])
 	rect_x += rect_change_x
 	rect_y += rect_change_y
-	#rect_change_x -= 0.2
-	#rect_change_y += 0.05
+	rect_change_x -= 0.2
+	rect_change_y += 0.05
 	#if rect_change_x < 1:
 		#rect_change_x = 0
 		#rect_change_y = 0
 	#if rect_change_y > 4:
 		#rect_change_y = 1
+	for i in range(50):
+	  	x = random.randrange(240, 1920)
+	  	y = random.randrange(0, 1080)
+	  	pygame.draw.circle(screen, White, [x, y], 2)
 	if rect_y > 1030 or rect_y < -50:
 		rect_change_y = rect_change_y * -1
-	if rect_x > 1870 or rect_x < -50:
+	if rect_x > 1870 or rect_x < 190:
 		rect_change_x = rect_change_x * -1     
 	pygame.display.flip()		                 
 	
