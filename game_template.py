@@ -18,6 +18,7 @@ rect_x = random.randrange(240,1920)
 rect_y = random.randrange(0,1080)
 rect_change_x = 25
 rect_change_y = 0
+snow_list = []
 
 #creating the window
 size = (1920,1080)
@@ -51,13 +52,21 @@ while not done:
 		#rect_change_y = 0
 	#if rect_change_y > 4:
 		#rect_change_y = 1
-	for i in range(50):
-	  	x = random.randrange(240, 1920)
-	  	y = random.randrange(0, 1080)
-	  	pygame.draw.circle(screen, White, [x, y], 2)
+	#for i in range(50):
+	  	#snow_x = random.randrange(240, 1920)
+	  	#snow_y = random.randrange(0, 1080)
+	  	#snow_list.append([snow_x,snow_y])
+	#for i in range(len(snow_list)):
+		#pygame.draw.circle(screen,White,snow_list[i],2)
+		#snow_list[i][1] += 1
+		#if snow_list[i][1]>1080:
+			#snow_y = random.randrange(-50,-10)
+			#snow_list[i][1]=snow_y
+			#snow_x = random.randrange(240,1920)
+			#snow_list[i][0]=snow_x
 	if rect_y > 1030 or rect_y < -50:
 		rect_change_y = rect_change_y * -1
-	if rect_x > 1870 or rect_x < 190:
+	if rect_x > 1820 or rect_x < 190:
 		rect_change_x = rect_change_x * -1     
 	pygame.display.flip()		                 
 	
