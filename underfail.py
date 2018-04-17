@@ -25,11 +25,21 @@ while not done:
 			screen.fill(Black)
 			done = True
 
+
+	if event.type == pygame.KEYDOWN:
+		if event.key == pygame.K_RIGHT:
+			player_x = player_x +1
+		if event.key == pygame.K_LEFT:
+			player_x = player_x -1
+		if event.key == pygame.K_UP:
+			player_y = player_y -1
+		if event.key == pygame.K_DOWN:
+			player_y = player_y +1
+
 	screen.fill(Black)
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
 	pygame.draw.rect(screen,White,[player_x,player_y,70,70])
-	#if event.type == pygame.KEYDOWN:
-	#	player_x = player_x +1
+
 
 	if player_health < 1:
 		screen.fill(Black)
