@@ -2,12 +2,16 @@ import pygame
 import random
 pygame.init()
 
-Black = (0,0,0) 
+Black = [0,0,0] 
 White = (255,255,255)
 boudary_x = (400)
 boundary_y = (400)
 boundary_length = (1120)
 boundary_height = (580)
+player_health = (100)
+player_x = (700)
+player_y = (700)
+player = (player_x,player_y,player_health)
 
 size = (1920,1080)
 screen = pygame.display.set_mode(size) 
@@ -23,6 +27,13 @@ while not done:
 
 	screen.fill(Black)
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
+	pygame.draw.rect(screen,White,[player_x,player_y,70,70])
+	#if event.type == pygame.KEYDOWN:
+	#	player_x = player_x +1
+
+	if player_health < 1:
+		screen.fill(Black)
+	pygame.display.flip()		                 
 
 	clock.tick(60)
 pygame.quit()
