@@ -18,7 +18,9 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("underfail")
 done = False
 clock = pygame.time.Clock()
-
+y_acceleration = 0
+x_acceleration = 0
+			
 while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -27,19 +29,32 @@ while not done:
 
 
 	if event.type == pygame.KEYDOWN:
+		if event.key == pygame.K_RIGHT and x_acceleration < 10:
+			x_acceleration += 1
+		if event.key == pygame.K_LEFT and x_acceleration > -10:
+			x_acceleration -= 1
+		if event.key == pygame.K_UP and y_acceleration > -10:
+			y_acceleration -= 1
+		if event.key == pygame.K_DOWN and y_acceleration < 10:
+			y_acceleration += 1
+	if event.type == pygame.KEYUP:
 		if event.key == pygame.K_RIGHT:
-			player_x = player_x +1
+			x_acceleration = 0
 		if event.key == pygame.K_LEFT:
-			player_x = player_x -1
+			x_acceleration = 0
 		if event.key == pygame.K_UP:
-			player_y = player_y -1
+			y_acceleration = 0
 		if event.key == pygame.K_DOWN:
-			player_y = player_y +1
+			y_acceleration = 0
+	if player_y > 400 and player_y < 980:
+		player_y += y_acceleration
+
+	if player_x > 400 and player_x < 1520:
+		player_x += x_acceleration
 
 	screen.fill(Black)
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
 	pygame.draw.rect(screen,White,[player_x,player_y,70,70])
-
 
 	if player_health < 1:
 		screen.fill(Black)
