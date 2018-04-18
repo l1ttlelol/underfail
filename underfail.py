@@ -28,29 +28,39 @@ while not done:
 			done = True
 
 
-	if event.type == pygame.KEYDOWN:
-		if event.key == pygame.K_RIGHT and x_acceleration < 10:
-			x_acceleration += 1
-		if event.key == pygame.K_LEFT and x_acceleration > -10:
-			x_acceleration -= 1
-		if event.key == pygame.K_UP and y_acceleration > -10:
-			y_acceleration -= 1
-		if event.key == pygame.K_DOWN and y_acceleration < 10:
-			y_acceleration += 1
-	if event.type == pygame.KEYUP:
-		if event.key == pygame.K_RIGHT:
+	#if event.type == pygame.KEYDOWN:
+	keys=pygame.key.get_pressed()
+	if player_x < 1520 - x_acceleration:
+		if keys[pygame.K_RIGHT]:
+			if x_acceleration < 10:
+				x_acceleration += 1
+	else:
+		if x_acceleration > 0:
 			x_acceleration = 0
-		if event.key == pygame.K_LEFT:
-			x_acceleration = 0
-		if event.key == pygame.K_UP:
-			y_acceleration = 0
-		if event.key == pygame.K_DOWN:
-			y_acceleration = 0
-	if player_y > 400 and player_y < 980:
-		player_y += y_acceleration
 
-	if player_x > 400 and player_x < 1520:
-		player_x += x_acceleration
+	if keys[pygame.K_LEFT] and x_acceleration > -10 and player_x > 400:
+			x_acceleration -= 1
+	
+
+
+	# if event.key == pygame.K_UP and y_acceleration > -10:
+	# 		y_acceleration -= 1
+	# 	if event.key == pygame.K_DOWN and y_acceleration < 10:
+	# 		y_acceleration += 1
+	# if event.type == pygame.KEYUP:
+	# 	if event.key == pygame.K_RIGHT:
+	# 		x_acceleration = 0
+	# 	if event.key == pygame.K_LEFT:
+	# 		x_acceleration = 0
+	# 	if event.key == pygame.K_UP:
+	# 		y_acceleration = 0
+	# 	if event.key == pygame.K_DOWN:
+	# 		y_acceleration = 0
+	# if player_y > 400 and player_y < 980:
+	# 	player_y += y_acceleration
+
+	
+	player_x += x_acceleration
 
 	screen.fill(Black)
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
