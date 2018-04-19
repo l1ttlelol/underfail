@@ -12,6 +12,8 @@ player_health = (100)
 player_x = (700)
 player_y = (700)
 player = (player_x,player_y,player_health)
+projectile_x = random.randrange(400,1520)
+projectile_y = random.randrange(400,980)
 
 size = (1920,1080)
 screen = pygame.display.set_mode(size) 
@@ -30,28 +32,31 @@ while not done:
 
 	#if event.type == pygame.KEYDOWN:
 	keys=pygame.key.get_pressed()
-	if player_x < 1440 - x_acceleration:
+	if player_x < 1450:
 		if keys[pygame.K_RIGHT]:
 			if x_acceleration < 10:
 				x_acceleration += 1
 	else:
 		if x_acceleration > 0:
 			x_acceleration = 0
-	if player_x > 400 - x_acceleration:
+	
+	if player_x > 400:
 		if keys[pygame.K_LEFT]:
 			if x_acceleration > -10:
 				x_acceleration -=1
 	else:
 		if x_acceleration < 0:
 			x_acceleration = 0
-	if player_y < 980 - y_acceleration:
+
+	if player_y < 980:
 		if keys[pygame.K_DOWN]:
 			if y_acceleration < 10:
 				y_acceleration += 1
 	else:
 		if y_acceleration > 0:
 			y_acceleration = 0
-	if player_y > 400 - y_acceleration:
+
+	if player_y > 400:
 		if keys[pygame.K_UP]:
 			if y_acceleration > -10:
 				y_acceleration -=1
@@ -59,21 +64,14 @@ while not done:
 		if y_acceleration < 0:
 			y_acceleration = 0
 
-	if keys[pygame.K_LEFT] and x_acceleration > -10 and player_x > 400:
-			x_acceleration -= 1
-	if keys[pygame.K_RIGHT] and x_acceleration < 10 and player_x < 1520:
-			x_acceleration += 1
-	if keys[pygame.K_UP] and y_acceleration > -10 and player_y > 400:
-			y_acceleration -= 1
-	if keys[pygame.K_DOWN] and y_acceleration < 10 and player_x < 980:
-			x_acceleration -= 1
 	
 	player_x += x_acceleration
+	player_y += y_acceleration
 
 	screen.fill(Black)
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
 	pygame.draw.rect(screen,White,[player_x,player_y,70,70])
-
+ 	#pygame.draw.line(screen,White,[projectile_x,projectile_y],[projectile_x + 2,projectile_y + 2],2)
 	if player_health < 1:
 		screen.fill(Black)
 	pygame.display.flip()		                 
