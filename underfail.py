@@ -32,7 +32,7 @@ while not done:
 
 	#if event.type == pygame.KEYDOWN:
 	keys=pygame.key.get_pressed()
-	if player_x < 1450:
+	if player_x < 1445:
 		if keys[pygame.K_RIGHT]:
 			if x_acceleration < 10:
 				x_acceleration += 1
@@ -40,7 +40,7 @@ while not done:
 		if x_acceleration > 0:
 			x_acceleration = 0
 	
-	if player_x > 400:
+	if player_x > 405:
 		if keys[pygame.K_LEFT]:
 			if x_acceleration > -10:
 				x_acceleration -=1
@@ -48,7 +48,7 @@ while not done:
 		if x_acceleration < 0:
 			x_acceleration = 0
 
-	if player_y < 980:
+	if player_y < 900:
 		if keys[pygame.K_DOWN]:
 			if y_acceleration < 10:
 				y_acceleration += 1
@@ -56,13 +56,16 @@ while not done:
 		if y_acceleration > 0:
 			y_acceleration = 0
 
-	if player_y > 400:
+	if player_y > 410:
 		if keys[pygame.K_UP]:
 			if y_acceleration > -10:
 				y_acceleration -=1
 	else:
 		if y_acceleration < 0:
 			y_acceleration = 0
+	if event.type == pygame.KEYUP:
+		x_acceleration = 0
+		y_acceleration = 0
 
 	
 	player_x += x_acceleration
