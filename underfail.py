@@ -85,13 +85,18 @@ while not done:
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
 	pygame.draw.rect(screen,White,hit_box)
 	pygame.draw.line(screen,White,[projectile_x,projectile_y],[projectile_x - 30,projectile_y])
+	if projectile_x < 1520:
+		projectile_x = projectile_x + 10
+	#else:
+		#projectile_x = 450
+	#projectile_y = random.randrange(400,980)
 	
 	if hit_box.collidepoint(projectile_x, projectile_y):
 		player_health -= player_health_deduction
 
 	if player_health < 1:
 		screen.fill(Black)
-	pygame.display.flip()		                 
+	pygame.display.flip()
 
 	clock.tick(60)
 pygame.quit()
