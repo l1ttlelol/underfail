@@ -15,6 +15,8 @@ player = (player_x,player_y,player_health)
 projectile_x = random.randrange(400,1520)
 projectile_y = random.randrange(400,980)
 hit_box = pygame.Rect(player_x,player_y,70,70)
+#projectile = pygame.Line([projectile_x,projectile_y],[projectile_x + 30,projectile_y + 30])
+player_health_deduction = 1
 
 size = (1920,1080)
 screen = pygame.display.set_mode(size) 
@@ -23,6 +25,7 @@ done = False
 clock = pygame.time.Clock()
 y_acceleration = 0
 x_acceleration = 0
+font = pygame.font.SysFont('Calibri', 25, True, False)
 			
 while not done:
 
@@ -74,9 +77,15 @@ while not done:
 	hit_box.y += y_acceleration
 
 	screen.fill(Black)
+	text = font.render("HEALTH",True,White)
+	pygame.draw.rect(screen,White,[350,250,player_health,20])
+	screen.blit(text,[250,250])
 	pygame.draw.rect(screen,White,[400,400,1120,580],2)
 	pygame.draw.rect(screen,White,hit_box)
- 	#pygame.draw.line(screen,White,[projectile_x,projectile_y],[projectile_x + 2,projectile_y + 2],2)
+ 	#pygame.draw.line(screen,White,[projectile_x,projectile_y],[projectile_x + 30,projectile_y + 30])
+	#if projectile_x or projectile_y  pygame.Rect.collidepoint(hit_box):
+		#player_health -= player_health_deduction
+
 	if player_health < 1:
 		screen.fill(Black)
 	pygame.display.flip()		                 
