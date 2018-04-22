@@ -1,13 +1,24 @@
 import pygame
 import random
+import time
 pygame.init()
 
-Black = [0,0,0] 
+start_time = time.time()
+total_time = -1
+
+
+Black = (0,0,0)
 White = (255,255,255)
-boudary_x = (400)
-boundary_y = (400)
-boundary_length = (1120)
-boundary_height = (580)
+ScreenWidth = 1920
+ScreenHeight = 1080
+
+
+boundary_x = 400
+boundary_y = 400
+boundary_length = 1120
+boundary_height = 580
+boundary_right = boundary_x + boundary_length
+
 player_health = (100)
 player_x = (700)
 player_y = (700)
@@ -16,9 +27,9 @@ player = (player_x,player_y,player_health)
 projectiles = []
 
 hit_box = pygame.Rect(player_x,player_y,70,70)
-player_health_deduction = 1
+player_health_deduction = 3
 
-size = (1920,1080)
+size = (ScreenWidth,ScreenHeight)
 screen = pygame.display.set_mode(size) 
 pygame.display.set_caption("underfail")
 done = False
@@ -26,6 +37,7 @@ clock = pygame.time.Clock()
 y_acceleration = 0
 x_acceleration = 0
 font = pygame.font.SysFont('Calibri', 25, True, False)
+gameover_font = pygame.font.SysFont('Calibri', 50, True, False)
 			
 while not done:
 
@@ -76,14 +88,19 @@ while not done:
 	hit_box.x += x_acceleration
 	hit_box.y += y_acceleration
 
-	if random.randint(0,9) == 0 and len(projectiles) < 10:
+	if random.randint(0,9) == 0 and len(projectiles) < 15:
 		projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
 
 	screen.fill(Black)
 	text = font.render("HEALTH",True,White)
 	pygame.draw.rect(screen,White,[350,250,player_health,20])
 	screen.blit(text,[250,250])
-	pygame.draw.rect(screen,White,[400,400,1120,580],2)
+
+	time_elapsed = time.time() - start_time
+	timetext = font.render(time.strftime("%M:%S", time.gmtime(time_elapsed)),True,White)
+	screen.blit(timetext,[1250,250])
+
+	pygame.draw.rect(screen,White,[400,400, boundary_length, boundary_height],2)
 	pygame.draw.rect(screen,White,hit_box)
 	
 
@@ -91,7 +108,7 @@ while not done:
 	for projectile in projectiles:
 		pygame.draw.line( screen,White,
 			[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
-		if projectile['x'] >= 1520:
+		if projectile['x'] >= boundary_right:
 			projectiles.remove(projectile)
 		else:
 			projectile['x'] = projectile['x'] + 10
@@ -99,8 +116,17 @@ while not done:
 			player_health -= player_health_deduction
 
 
+	if player_health < 1 and total_time == -1:
+		total_time = time_elapsed
+
 	if player_health < 1:
 		screen.fill(Black)
+		time_string = time.strftime("%M:%S", time.gmtime(total_time))
+		timetext = gameover_font.render(time_string,True,White)
+		timetext_size = gameover_font.size(time_string)
+		screen.blit(timetext,[(ScreenWidth/2)-timetext_size[0]/2,250])
+
+
 	pygame.display.flip()
 
 	clock.tick(60)
