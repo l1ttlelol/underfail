@@ -23,15 +23,23 @@ player_health = (100)
 player_x = (700)
 player_y = (700)
 player = (player_x,player_y,player_health)
+player_health_deduction = 1
 
-projectiles = []
-
+def easy_difficulty():
+	player_health_deduction = 3
+	random.randint(0,9) == 0
+def hard_difficulty():
+	player_health_deduction = 6
+	random.randint(0,15) == 0
+def expert_difficulty():
+	player_health_deduction = 10
+	random.randint(0,20) == 0
+projectiles = []	
 hit_box = pygame.Rect(player_x,player_y,70,70)
-player_health_deduction = 3
 
 size = (ScreenWidth,ScreenHeight)
 screen = pygame.display.set_mode(size) 
-pygame.display.set_caption("underfail")
+pygame.display.set_caption("underfail demo")
 done = False
 clock = pygame.time.Clock()
 y_acceleration = 0
