@@ -121,7 +121,7 @@ class Game:
 			self.hit_box.x += self.x_acceleration
 			self.hit_box.y += self.y_acceleration
 
-			if random.randint(0,9) == 0 and len(self.projectiles) < 15:
+			if random.randint(0,9) == 0 and len(self.projectiles) < self.config['max_projectiles']:
 				self.projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
 
 			self.screen.fill(self.Black)
@@ -145,11 +145,33 @@ class Game:
 
 			self.clock.tick(60)
 
+class Menu:
+	def run(self):
+		#do something
+		self.selected_config = 'easy'
 
-config = {
-#	player_health_deduction: 3,
-#	projectile_probability: 10
-}
+	def config(self):
+		easy_config = {
+			'player_health_deduction': 3,
+			'max_projectiles': 10
+		}
+
+		hard_config = {
+			'player_health_deduction': 5,
+			'max_projectiles': 20
+		}
+
+		# decide which config to return
+		if self.selected_config == 'easy':
+			return easy_config
+		else:
+			if self.selected_config == 'hard':
+				return hard_config
+
+underfail_menu = Menu()
+underfail_menu.run()
+
+config = underfail_menu.config()
 
 underfail_game = Game(config)
 underfail_game.run()
