@@ -1,141 +1,183 @@
 import pygame
 import random
 import time
-pygame.init()
-
-start_time = time.time()
-total_time = -1
 
 
-Black = (0,0,0)
-White = (255,255,255)
-ScreenWidth = 1920
-ScreenHeight = 1080
+class Game:
+	def __init__(self, config):
+		self.config = config
+
+	def run(self):
+		pygame.init()
+		self.start_time = time.time()
+		self.total_time = -1
+		self.Black = (0,0,0)
+		self.White = (255,255,255)
+		self.ScreenWidth = 1920
+		self.ScreenHeight = 1080
 
 
-boundary_x = 400
-boundary_y = 400
-boundary_length = 1120
-boundary_height = 580
-boundary_right = boundary_x + boundary_length
+		self.boundary_x = 400
+		self.boundary_y = 400
+		self.boundary_length = 1120
+		self.boundary_height = 580
+		self.boundary_right = self.boundary_x + self.boundary_length
 
-player_health = (100)
-player_x = (700)
-player_y = (700)
-player = (player_x,player_y,player_health)
-player_health_deduction = 1
+		self.player_health = (100)
+		self.player_x = (700)
+		self.player_y = (700)
+		self.player = (self.player_x, self.player_y, self.player_health)
+		self.player_health_deduction = 1
 
-def easy_difficulty():
-	player_health_deduction = 3
-	random.randint(0,9) == 0
-def hard_difficulty():
-	player_health_deduction = 6
-	random.randint(0,15) == 0
-def expert_difficulty():
-	player_health_deduction = 10
-	random.randint(0,20) == 0
-projectiles = []	
-hit_box = pygame.Rect(player_x,player_y,70,70)
+		self.projectiles = []	
+		self.hit_box = pygame.Rect(self.player_x, self.player_y, 70, 70)
 
-size = (ScreenWidth,ScreenHeight)
-screen = pygame.display.set_mode(size) 
-pygame.display.set_caption("underfail demo")
-done = False
-clock = pygame.time.Clock()
-y_acceleration = 0
-x_acceleration = 0
-font = pygame.font.SysFont('Calibri', 25, True, False)
-gameover_font = pygame.font.SysFont('Calibri', 50, True, False)
-			
-while not done:
+		self.size = (self.ScreenWidth, self.ScreenHeight)
+		self.screen = pygame.display.set_mode(self.size) 
+		pygame.display.set_caption("underfail demo")
+		self.clock = pygame.time.Clock()
+		self.y_acceleration = 0
+		self.x_acceleration = 0
+		self.font = pygame.font.SysFont('Calibri', 25, True, False)
+		self.gameover_font = pygame.font.SysFont('Calibri', 50, True, False)
 
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			screen.fill(Black)
-			done = True
+		self.loop()
+
+	def handle_events(self):
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				self.screen.fill(self.Black)
+				self.done = True
+			if event.type == pygame.KEYUP:
+				self.x_acceleration = 0
+				self.y_acceleration = 0
 
 
-	#if event.type == pygame.KEYDOWN:
-	keys=pygame.key.get_pressed()
-	if hit_box.x < 1445:
-		if keys[pygame.K_RIGHT]:
-			if x_acceleration < 10:
-				x_acceleration += 1
-	else:
-		if x_acceleration > 0:
-			x_acceleration = 0
-	
-	if hit_box.x > 405:
-		if keys[pygame.K_LEFT]:
-			if x_acceleration > -10:
-				x_acceleration -=1
-	else:
-		if x_acceleration < 0:
-			x_acceleration = 0
-
-	if hit_box.y < 900:
-		if keys[pygame.K_DOWN]:
-			if y_acceleration < 10:
-				y_acceleration += 1
-	else:
-		if y_acceleration > 0:
-			y_acceleration = 0
-
-	if hit_box.y > 410:
-		if keys[pygame.K_UP]:
-			if y_acceleration > -10:
-				y_acceleration -=1
-	else:
-		if y_acceleration < 0:
-			y_acceleration = 0
-	if event.type == pygame.KEYUP:
-		x_acceleration = 0
-		y_acceleration = 0
-
-	
-	hit_box.x += x_acceleration
-	hit_box.y += y_acceleration
-
-	if random.randint(0,9) == 0 and len(projectiles) < 15:
-		projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
-
-	screen.fill(Black)
-	text = font.render("HEALTH",True,White)
-	pygame.draw.rect(screen,White,[350,250,player_health,20])
-	screen.blit(text,[250,250])
-
-	time_elapsed = time.time() - start_time
-	timetext = font.render(time.strftime("%M:%S", time.gmtime(time_elapsed)),True,White)
-	screen.blit(timetext,[1250,250])
-
-	pygame.draw.rect(screen,White,[400,400, boundary_length, boundary_height],2)
-	pygame.draw.rect(screen,White,hit_box)
-	
-
-	# Loop through the projectiles and do stuff
-	for projectile in projectiles:
-		pygame.draw.line( screen,White,
-			[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
-		if projectile['x'] >= boundary_right:
-			projectiles.remove(projectile)
+		#if event.type == pygame.KEYDOWN:
+		keys=pygame.key.get_pressed()
+		if self.hit_box.x < 1445:
+			if keys[pygame.K_RIGHT]:
+				if self.x_acceleration < 10:
+					self.x_acceleration += 1
 		else:
-			projectile['x'] = projectile['x'] + 10
-		if hit_box.collidepoint(projectile['x'], projectile['y']):
-			player_health -= player_health_deduction
+			if self.x_acceleration > 0:
+				self.x_acceleration = 0
+		
+		if self.hit_box.x > 405:
+			if keys[pygame.K_LEFT]:
+				if self.x_acceleration > -10:
+					self.x_acceleration -=1
+		else:
+			if self.x_acceleration < 0:
+				self.x_acceleration = 0
+
+		if self.hit_box.y < 900:
+			if keys[pygame.K_DOWN]:
+				if self.y_acceleration < 10:
+					self.y_acceleration += 1
+		else:
+			if self.y_acceleration > 0:
+				self.y_acceleration = 0
+
+		if self.hit_box.y > 410:
+			if keys[pygame.K_UP]:
+				if self.y_acceleration > -10:
+					self.y_acceleration -=1
+		else:
+			if self.y_acceleration < 0:
+				self.y_acceleration = 0
 
 
-	if player_health < 1 and total_time == -1:
-		total_time = time_elapsed
+	def update_projectiles(self):
+		# Loop through the projectiles and do stuff
+		for projectile in self.projectiles:
+			pygame.draw.line( self.screen, self.White,
+				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
+			if projectile['x'] >= self.boundary_right:
+				self.projectiles.remove(projectile)
+			else:
+				projectile['x'] = projectile['x'] + 10
+			if self.hit_box.collidepoint(projectile['x'], projectile['y']):
+				self.player_health -= self.player_health_deduction
 
-	if player_health < 1:
-		screen.fill(Black)
-		time_string = time.strftime("%M:%S", time.gmtime(total_time))
-		timetext = gameover_font.render(time_string,True,White)
-		timetext_size = gameover_font.size(time_string)
-		screen.blit(timetext,[(ScreenWidth/2)-timetext_size[0]/2,250])
+	def update_player_health(self):
+		if self.player_health < 1 and self.total_time == -1:
+			self.total_time = time_elapsed
+
+		if self.player_health < 1:
+			self.screen.fill(self.Black)
+			time_string = time.strftime("%M:%S", time.gmtime(self.total_time))
+			timetext = self.gameover_font.render(time_string, True, self.White)
+			timetext_size = self.gameover_font.size(time_string)
+			self.screen.blit(timetext,[(self.ScreenWidth/2)-timetext_size[0]/2,250])
+
+	def loop(self):
+		self.done = False
+		while not self.done:
+
+			self.handle_events()
+
+			
+			self.hit_box.x += self.x_acceleration
+			self.hit_box.y += self.y_acceleration
+
+			if random.randint(0,9) == 0 and len(self.projectiles) < 15:
+				self.projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
+
+			self.screen.fill(self.Black)
+			text = self.font.render("HEALTH",True, self.White)
+			pygame.draw.rect(self.screen, self.White, [350, 250, self.player_health, 20])
+			self.screen.blit(text,[250,250])
+
+			time_elapsed = time.time() - self.start_time
+			timetext = self.font.render(time.strftime("%M:%S", time.gmtime(time_elapsed)),True, self.White)
+			self.screen.blit(timetext,[1250,250])
+
+			pygame.draw.rect(self.screen, self.White, [400,400, self.boundary_length, self.boundary_height],2)
+			pygame.draw.rect(self.screen, self.White, self.hit_box)
+			
+
+			self.update_projectiles()
+			self.update_player_health()
 
 
-	pygame.display.flip()
+			pygame.display.flip()
 
-	clock.tick(60)
-pygame.quit()
+			self.clock.tick(60)
+
+
+config = {
+#	player_health_deduction: 3,
+#	projectile_probability: 10
+}
+
+underfail_game = Game(config)
+underfail_game.run()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
