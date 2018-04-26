@@ -91,8 +91,6 @@ class Game:
 	def update_projectiles(self):
 		# Loop through the projectiles and do stuff
 		for projectile in self.projectiles:
-			pygame.draw.line( self.screen, self.White,
-				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
 			if projectile['x'] >= self.boundary_right:
 				self.projectiles.remove(projectile)
 			else:
@@ -102,7 +100,7 @@ class Game:
 
 	def update_player_health(self):
 		if self.player_health < 1 and self.total_time == -1:
-			self.total_time = time_elapsed
+			self.total_time = self.time_elapsed
 
 		if self.player_health < 1:
 			self.screen.fill(self.Black)
@@ -111,6 +109,29 @@ class Game:
 			timetext_size = self.gameover_font.size(time_string)
 			self.screen.blit(timetext,[(self.ScreenWidth/2)-timetext_size[0]/2,250])
 
+	def draw_health(self):
+
+		text = self.font.render("HEALTH",True, self.White)
+		pygame.draw.rect(self.screen, self.White, [350, 250, self.player_health, 20])
+		self.screen.blit(text,[250,250])
+
+	def timer(self):		
+		self.time_elapsed = time.time() - self.start_time
+		timetext = self.font.render(time.strftime("%M:%S", time.gmtime(self.time_elapsed)),True, self.White)
+		self.screen.blit(timetext,[1250,250])
+
+	def drawing(self):		
+		self.screen.fill(self.Black)
+		self.draw_health()
+
+		pygame.draw.rect(self.screen, self.White, [400,400, self.boundary_length, self.boundary_height],2)
+		pygame.draw.rect(self.screen, self.White, self.hit_box)
+
+		for projectile in self.projectiles:
+			pygame.draw.line( self.screen, self.White,
+				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
+
+			
 	def loop(self):
 		self.done = False
 		while not self.done:
@@ -124,22 +145,14 @@ class Game:
 			if random.randint(0,9) == 0 and len(self.projectiles) < self.config['max_projectiles']:
 				self.projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
 
-			self.screen.fill(self.Black)
-			text = self.font.render("HEALTH",True, self.White)
-			pygame.draw.rect(self.screen, self.White, [350, 250, self.player_health, 20])
-			self.screen.blit(text,[250,250])
-
-			time_elapsed = time.time() - self.start_time
-			timetext = self.font.render(time.strftime("%M:%S", time.gmtime(time_elapsed)),True, self.White)
-			self.screen.blit(timetext,[1250,250])
-
-			pygame.draw.rect(self.screen, self.White, [400,400, self.boundary_length, self.boundary_height],2)
-			pygame.draw.rect(self.screen, self.White, self.hit_box)
-			
-
+		
 			self.update_projectiles()
-			self.update_player_health()
 
+			self.drawing()
+
+
+			self.timer()
+			self.update_player_health()
 
 			pygame.display.flip()
 
