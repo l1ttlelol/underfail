@@ -1,4 +1,6 @@
 import pygame
+from pygame.locals import*
+img = pygame.image.load('mcree sprite.png')
 pygame.init()
 
 # The value for colors
@@ -26,10 +28,7 @@ while not quit:
 
 	#Drawing on the window
 	screen.fill(White)
-	pygame.draw.line(screen, Green, [0, 0], [100, 100], 5)
-	y_offset = 0
-	for y_offset in range(0,100,10):
-		pygame.draw.line(screen,Red,[0,10+y_offset],[100,110+y_offset],5)
+	screen.blit(img,(0,0))
 	pygame.display.flip()		                 
 	
 	#quitting the window part 2

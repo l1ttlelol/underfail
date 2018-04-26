@@ -147,10 +147,7 @@ class Game:
 
 		
 			self.update_projectiles()
-
 			self.drawing()
-
-
 			self.timer()
 			self.update_player_health()
 
