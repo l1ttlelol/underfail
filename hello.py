@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import*
-img = pygame.image.load('mcree sprite.png')
+img = pygame.image.load('soul sprite.png')
+img = pygame.transform.scale(img,(70,70))
 pygame.init()
 
 # The value for colors
