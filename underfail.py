@@ -1,4 +1,7 @@
 import pygame
+from pygame.locals import*
+img = pygame.image.load('soul sprite.png')
+img = pygame.transform.scale(img,(70,70))
 import random
 import time
 
@@ -125,12 +128,11 @@ class Game:
 		self.draw_health()
 
 		pygame.draw.rect(self.screen, self.White, [400,400, self.boundary_length, self.boundary_height],2)
-		pygame.draw.rect(self.screen, self.White, self.hit_box)
 
 		for projectile in self.projectiles:
 			pygame.draw.line( self.screen, self.White,
 				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
-
+		self.screen.blit(img,(self.hit_box))
 			
 	def loop(self):
 		self.done = False
