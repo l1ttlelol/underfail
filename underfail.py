@@ -179,7 +179,12 @@ class Menu:
 		else:
 			if self.selected_config == 'hard':
 				return hard_config
-
+	def mouse_interation(self):
+		self.ev = pygame.event.get()
+		for event in self.ev:
+			if event.type == pygame.MOUSEBUTTONUP:
+				pos = pygame.mouse.get_pos()
+				clicked_sprites = [s for s in sprites if s.rect.collidepoint(pos)]
 underfail_menu = Menu()
 underfail_menu.run()
 
