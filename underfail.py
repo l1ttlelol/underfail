@@ -9,6 +9,10 @@ import time
 class Game:
 	def __init__(self, config):
 		self.config = config
+		self.quited = False
+
+	def quit(self):
+		self.quited
 
 	def run(self):
 		pygame.init()
@@ -16,8 +20,6 @@ class Game:
 		self.total_time = -1
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
-		self.ScreenWidth = 1920
-		self.ScreenHeight = 1080
 
 
 		self.boundary_x = 400
@@ -35,6 +37,8 @@ class Game:
 		self.projectiles = []	
 		self.hit_box = pygame.Rect(self.player_x, self.player_y, 70, 70)
 
+		self.ScreenWidth = 1920
+		self.ScreenHeight = 1080
 		self.size = (self.ScreenWidth, self.ScreenHeight)
 		self.screen = pygame.display.set_mode(self.size) 
 		pygame.display.set_caption("underfail demo")
@@ -53,6 +57,7 @@ class Game:
 			if event.type == pygame.QUIT:
 				self.screen.fill(self.Black)
 				self.done = True
+				self.quit = True
 			if event.type == pygame.KEYUP:
 				self.x_acceleration = 0
 				self.y_acceleration = 0
@@ -92,6 +97,9 @@ class Game:
 			if self.y_acceleration < 0:
 				self.y_acceleration = 0
 
+		if self.player_health < 1:
+			if keys[pygame.K_SPACE]:
+				self.done =True
 
 	def update_projectiles(self):
 		# Loop through the projectiles and do stuff
@@ -136,13 +144,7 @@ class Game:
 				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
 		self.screen.blit(img,(self.hit_box))
 	
-	def mode_select(self):
-		easy_text = self.font.render("Easy",True, self.White)
-		hard_text = self.font.render("Hard",True, self.White)
-		self.screen.fill(self.Black)
-		self.screen.blit(easy_text,[300,300])
-		self.screen.blit(hard_text,[1620,300])
-		
+
 
 
 	def loop(self):
@@ -171,7 +173,24 @@ class Game:
 class Menu:
 	def run(self):
 		#do something
+
+		self.Black = (0,0,0)
+		self.White = (255,255,255)
 		self.selected_config = 'easy'
+		self.button_width = 300
+		self.button_height = 300
+		self.easy_button_rect = pygame.Rect(50, 50, self.button_width, self.button_height)
+		self.hard_button_rect = pygame.Rect(450, 50, self.button_width, self.button_height)
+
+		self.ScreenWidth = 1920
+		self.ScreenHeight = 1080
+		self.size = (self.ScreenWidth, self.ScreenHeight)
+
+		pygame.init()
+		self.font = pygame.font.SysFont('Calibri', 25, True, False)
+		self.screen = pygame.display.set_mode(self.size) 
+		self.clock = pygame.time.Clock()
+		self.loop()
 
 	def config(self):
 		easy_config = {
@@ -183,26 +202,65 @@ class Menu:
 			'player_health_deduction': 5,
 			'max_projectiles': 20
 		}
-
 		# decide which config to return
 		if self.selected_config == 'easy':
 			return easy_config
 		else:
 			if self.selected_config == 'hard':
 				return hard_config
+
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
 		for event in self.ev:
 			if event.type == pygame.MOUSEBUTTONUP:
 				pos = pygame.mouse.get_pos()
-				clicked_sprites = [s for s in sprites if s.rect.collidepoint(pos)]
-underfail_menu = Menu()
-underfail_menu.run()
+				if self.easy_button_rect.collidepoint(pos):
+					self.done = True
+					self.selected_config = 'easy'
+				if self.hard_button_rect.collidepoint(pos):
+					self.done = True
+					self.selected_config = 'hard'
 
-config = underfail_menu.config()
+	def drawing(self):		
+		self.screen.fill(self.Black)
 
-underfail_game = Game(config)
-underfail_game.run()
+
+		pygame.draw.rect(self.screen, self.White, self.easy_button_rect,2)
+		pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
+
+		easy_text = self.font.render("Easy",True, self.White)
+		hard_text = self.font.render("Hard",True, self.White)
+		self.screen.blit(easy_text,[300,300])
+		self.screen.blit(hard_text,[1620,300])
+
+
+	def loop(self):
+		self.done = False
+		while not self.done:
+
+			self.mouse_interation()
+
+			self.drawing()
+
+			pygame.display.flip()
+
+			self.clock.tick(60)
+
+
+
+
+
+
+while True:
+	underfail_menu = Menu()
+	underfail_menu.run()
+
+	config = underfail_menu.config()
+
+	underfail_game = Game(config)
+	underfail_game.run()
+	if underfail_game.quit() == True:
+		break
 
 
 
