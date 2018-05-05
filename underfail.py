@@ -43,6 +43,8 @@ class Game:
 		self.x_acceleration = 0
 		self.font = pygame.font.SysFont('Calibri', 25, True, False)
 		self.gameover_font = pygame.font.SysFont('Calibri', 50, True, False)
+		
+		self.configeration = ()
 
 		self.loop()
 
@@ -133,7 +135,16 @@ class Game:
 			pygame.draw.line( self.screen, self.White,
 				[projectile['x'], projectile['y']], [projectile['x'] - 30, projectile['y'] ])
 		self.screen.blit(img,(self.hit_box))
-			
+	
+	def mode_select(self):
+		easy_text = self.font.render("Easy",True, self.White)
+		hard_text = self.font.render("Hard",True, self.White)
+		self.screen.fill(self.Black)
+		self.screen.blit(easy_text,[300,300])
+		self.screen.blit(hard_text,[1620,300])
+		
+
+
 	def loop(self):
 		self.done = False
 		while not self.done:
