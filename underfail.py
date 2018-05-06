@@ -25,7 +25,7 @@ class Game:
 		self.boundary_height = 580
 		self.boundary_right = self.boundary_x + self.boundary_length
 
-		self.player_health = (100)
+		self.player_health = (50)
 		self.player_x = (700)
 		self.player_y = (700)
 		self.player = (self.player_x, self.player_y, self.player_health)
@@ -123,7 +123,7 @@ class Game:
 	def draw_health(self):
 
 		text = self.font.render("HEALTH",True, self.White)
-		pygame.draw.rect(self.screen, self.White, [350, 250, self.player_health, 20])
+		pygame.draw.rect(self.screen, self.White, [350, 250, self.player_health*2, 20])
 		self.screen.blit(text,[250,250])
 
 	def timer(self):		
@@ -192,20 +192,19 @@ class Menu:
 
 	def config(self):
 		easy_config = {
-			'player_health_deduction': 3,
+			'player_health_deduction': 5,
 			'max_projectiles': 10
 		}
 
 		hard_config = {
-			'player_health_deduction': 5,
+			'player_health_deduction': 15,
 			'max_projectiles': 20
 		}
 		# decide which config to return
 		if self.selected_config == 'easy':
 			return easy_config
-		else:
-			if self.selected_config == 'hard':
-				return hard_config
+		if self.selected_config == 'hard':
+			return hard_config
 
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
