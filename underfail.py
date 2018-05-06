@@ -4,15 +4,12 @@ img = pygame.image.load('soul sprite.png')
 img = pygame.transform.scale(img,(70,70))
 import random
 import time
+import sys
 
 
 class Game:
 	def __init__(self, config):
 		self.config = config
-		self.quited = False
-
-	def quit(self):
-		self.quited
 
 	def run(self):
 		pygame.init()
@@ -57,7 +54,8 @@ class Game:
 			if event.type == pygame.QUIT:
 				self.screen.fill(self.Black)
 				self.done = True
-				self.quit = True
+				sys.exit()
+
 			if event.type == pygame.KEYUP:
 				self.x_acceleration = 0
 				self.y_acceleration = 0
@@ -212,6 +210,8 @@ class Menu:
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
 		for event in self.ev:
+			if event.type == pygame.QUIT:
+				sys.exit()			
 			if event.type == pygame.MOUSEBUTTONUP:
 				pos = pygame.mouse.get_pos()
 				if self.easy_button_rect.collidepoint(pos):
@@ -250,7 +250,6 @@ class Menu:
 
 
 
-
 while True:
 	underfail_menu = Menu()
 	underfail_menu.run()
@@ -259,9 +258,6 @@ while True:
 
 	underfail_game = Game(config)
 	underfail_game.run()
-	if underfail_game.quit() == True:
-		break
-
 
 
 
