@@ -179,6 +179,7 @@ class Menu:
 		self.button_height = 50
 		self.easy_button_rect = pygame.Rect(290, 290, self.button_width, self.button_height)
 		self.hard_button_rect = pygame.Rect(590, 290, self.button_width, self.button_height)
+		self.epic_button_rect = pygame.Rect(890, 290, self.button_width, self.button_height)
 
 		self.ScreenWidth = 1920
 		self.ScreenHeight = 1080
@@ -200,12 +201,18 @@ class Menu:
 			'player_health_deduction': 15,
 			'max_projectiles': 20
 		}
+		
+		epic_config = {
+			'player_health_deduction': 20,
+			'max_projectiles': 30
+		}
 		# decide which config to return
 		if self.selected_config == 'easy':
 			return easy_config
 		if self.selected_config == 'hard':
 			return hard_config
-
+		if self.selected_config == 'epic':
+			return epic_config
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
 		for event in self.ev:
@@ -219,6 +226,9 @@ class Menu:
 				if self.hard_button_rect.collidepoint(pos):
 					self.done = True
 					self.selected_config = 'hard'
+				if self.epic_button_rect.collidepoint(pos):
+					self.done = True
+					self.selected_config = 'epic'
 
 	def drawing(self):		
 		self.screen.fill(self.Black)
@@ -226,11 +236,14 @@ class Menu:
 
 		pygame.draw.rect(self.screen, self.White, self.easy_button_rect,2)
 		pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
+		pygame.draw.rect(self.screen, self.White, self.epic_button_rect,2)
 
 		easy_text = self.font.render("Easy",True, self.White)
 		hard_text = self.font.render("Hard",True, self.White)
+		epic_text = self.font.render("Epic",True, self.White)
 		self.screen.blit(easy_text,[300,300])
 		self.screen.blit(hard_text,[600,300])
+		self.screen.blit(epic_text,[900,300])
 
 
 	def loop(self):
