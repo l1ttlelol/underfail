@@ -175,10 +175,10 @@ class Menu:
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
 		self.selected_config = 'easy'
-		self.button_width = 300
-		self.button_height = 300
-		self.easy_button_rect = pygame.Rect(50, 50, self.button_width, self.button_height)
-		self.hard_button_rect = pygame.Rect(450, 50, self.button_width, self.button_height)
+		self.button_width = 100
+		self.button_height = 50
+		self.easy_button_rect = pygame.Rect(290, 290, self.button_width, self.button_height)
+		self.hard_button_rect = pygame.Rect(590, 290, self.button_width, self.button_height)
 
 		self.ScreenWidth = 1920
 		self.ScreenHeight = 1080
@@ -230,7 +230,7 @@ class Menu:
 		easy_text = self.font.render("Easy",True, self.White)
 		hard_text = self.font.render("Hard",True, self.White)
 		self.screen.blit(easy_text,[300,300])
-		self.screen.blit(hard_text,[1620,300])
+		self.screen.blit(hard_text,[600,300])
 
 
 	def loop(self):
