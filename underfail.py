@@ -17,7 +17,8 @@ class Game:
 		self.total_time = -1
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
-
+		self.yellow = (248,240,192)
+		self.purple = (174,295,255)
 
 		self.boundary_x = 400
 		self.boundary_y = 400
@@ -174,6 +175,8 @@ class Menu:
 
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
+		self.yellow = (248,240,192)
+		self.purple = (174,295,255)
 		self.selected_config = 'easy'
 		self.button_width = 120
 		self.button_height = 50
@@ -181,6 +184,7 @@ class Menu:
 		self.hard_button_rect = pygame.Rect(590, 290, self.button_width, self.button_height)
 		self.epic_button_rect = pygame.Rect(890, 290, self.button_width, self.button_height)
 		self.legendary_button_rect = pygame.Rect(1190, 290, self.button_width, self.button_height)
+		self.godsent_button_rect = pygame.Rect(445, 590, self.button_width, self.button_height)
 
 
 		self.ScreenWidth = 1920
@@ -221,6 +225,13 @@ class Menu:
 			'max_projectiles': 40,
 			'minimum_projectiles':0
 		}
+
+		godsent_config = {
+			'player_health_deduction': 35,
+			'inverse_projectile_probability': 2,
+			'max_projectiles': 70,
+			'minimum_projectiles':0
+		}
 		# decide which config to return
 		if self.selected_config == 'easy':
 			return easy_config
@@ -228,7 +239,10 @@ class Menu:
 			return hard_config
 		if self.selected_config == 'epic':
 			return epic_config
-
+		if self.selected_config == 'legendary':
+			return legendary_config
+		if self.selected_config == 'godsent':
+			return godsent_config
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
 		for event in self.ev:
@@ -247,7 +261,10 @@ class Menu:
 					self.selected_config = 'epic'
 				if self.legendary_button_rect.collidepoint(pos):
 					self.done = True
-					self.selected_config = 'epic'
+					self.selected_config = 'legendary'
+				if self.godsent_button_rect.collidepoint(pos):
+					self.done = True
+					self.selected_config = 'godsent'
 
 	def drawing(self):		
 		self.screen.fill(self.Black)
@@ -257,16 +274,19 @@ class Menu:
 		pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
 		pygame.draw.rect(self.screen, self.White, self.epic_button_rect,2)
 		pygame.draw.rect(self.screen, self.White, self.legendary_button_rect,2)
+		pygame.draw.rect(self.screen, self.yellow, self.godsent_button_rect,0)
+
 
 		easy_text = self.font.render("Easy",True, self.White)
 		hard_text = self.font.render("Hard",True, self.White)
 		epic_text = self.font.render("Epic",True, self.White)
 		legendary_text = self.font.render("Legendary",True, self.White)
+		godsent_text = self.font.render("GodSent",True, self.Black)
 		self.screen.blit(easy_text,[300,300])
 		self.screen.blit(hard_text,[600,300])
 		self.screen.blit(epic_text,[900,300])
 		self.screen.blit(legendary_text,[1200,300])
-
+		self.screen.blit(godsent_text,[450,600])
 
 	def loop(self):
 		self.done = False
