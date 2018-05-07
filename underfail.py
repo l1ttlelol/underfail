@@ -107,7 +107,7 @@ class Game:
 				projectile['x'] = projectile['x'] + 10
 			if self.hit_box.collidepoint(projectile['x'], projectile['y']):
 				self.player_health -= self.config['player_health_deduction']
-				self.projectiles.remove(projectile)
+				self.projectiles.remove(projectile) 
 
 	def update_player_health(self):
 		if self.player_health < 1 and self.total_time == -1:
@@ -175,11 +175,13 @@ class Menu:
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
 		self.selected_config = 'easy'
-		self.button_width = 100
+		self.button_width = 120
 		self.button_height = 50
 		self.easy_button_rect = pygame.Rect(290, 290, self.button_width, self.button_height)
 		self.hard_button_rect = pygame.Rect(590, 290, self.button_width, self.button_height)
 		self.epic_button_rect = pygame.Rect(890, 290, self.button_width, self.button_height)
+		self.legendary_button_rect = pygame.Rect(1190, 290, self.button_width, self.button_height)
+
 
 		self.ScreenWidth = 1920
 		self.ScreenHeight = 1080
@@ -200,16 +202,23 @@ class Menu:
 		}
 
 		hard_config = {
-			'player_health_deduction': 15,
+			'player_health_deduction': 10,
 			'inverse_projectile_probability': 7,
 			'max_projectiles': 20,
 			'minimum_projectiles':0
 		}
 		
 		epic_config = {
-			'player_health_deduction': 20,
+			'player_health_deduction': 15,
 			'inverse_projectile_probability': 5,
 			'max_projectiles': 30,
+			'minimum_projectiles':0
+		}
+
+		Legendary_config = {
+			'player_health_deduction': 20,
+			'inverse_projectile_probability': 3,
+			'max_projectiles': 40,
 			'minimum_projectiles':0
 		}
 		# decide which config to return
@@ -236,6 +245,9 @@ class Menu:
 				if self.epic_button_rect.collidepoint(pos):
 					self.done = True
 					self.selected_config = 'epic'
+				if self.legendary_button_rect.collidepoint(pos):
+					self.done = True
+					self.selected_config = 'epic'
 
 	def drawing(self):		
 		self.screen.fill(self.Black)
@@ -244,13 +256,16 @@ class Menu:
 		pygame.draw.rect(self.screen, self.White, self.easy_button_rect,2)
 		pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
 		pygame.draw.rect(self.screen, self.White, self.epic_button_rect,2)
+		pygame.draw.rect(self.screen, self.White, self.legendary_button_rect,2)
 
 		easy_text = self.font.render("Easy",True, self.White)
 		hard_text = self.font.render("Hard",True, self.White)
 		epic_text = self.font.render("Epic",True, self.White)
+		legendary_text = self.font.render("Legendary",True, self.White)
 		self.screen.blit(easy_text,[300,300])
 		self.screen.blit(hard_text,[600,300])
 		self.screen.blit(epic_text,[900,300])
+		self.screen.blit(legendary_text,[1200,300])
 
 
 	def loop(self):
