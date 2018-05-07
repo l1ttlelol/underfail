@@ -29,7 +29,6 @@ class Game:
 		self.player_x = (700)
 		self.player_y = (700)
 		self.player = (self.player_x, self.player_y, self.player_health)
-		self.player_health_deduction = 1
 
 		self.projectiles = []	
 		self.hit_box = pygame.Rect(self.player_x, self.player_y, 70, 70)
@@ -107,7 +106,8 @@ class Game:
 			else:
 				projectile['x'] = projectile['x'] + 10
 			if self.hit_box.collidepoint(projectile['x'], projectile['y']):
-				self.player_health -= self.player_health_deduction
+				self.player_health -= self.config['player_health_deduction']
+				self.projectiles.remove(projectile)
 
 	def update_player_health(self):
 		if self.player_health < 1 and self.total_time == -1:
@@ -155,7 +155,7 @@ class Game:
 			self.hit_box.x += self.x_acceleration
 			self.hit_box.y += self.y_acceleration
 
-			if random.randint(0,9) == 0 and len(self.projectiles) < self.config['max_projectiles']:
+			if random.randint(0, self.config['inverse_projectile_probability']) == 0 and len(self.projectiles) < self.config['max_projectiles']:
 				self.projectiles.append({'x': random.randrange(400,450), 'y': random.randrange(400,980)})
 
 		
@@ -194,17 +194,23 @@ class Menu:
 	def config(self):
 		easy_config = {
 			'player_health_deduction': 5,
-			'max_projectiles': 10
+			'inverse_projectile_probability': 10,
+			'max_projectiles': 10,
+			'minimum_projectiles':0
 		}
 
 		hard_config = {
 			'player_health_deduction': 15,
-			'max_projectiles': 20
+			'inverse_projectile_probability': 7,
+			'max_projectiles': 20,
+			'minimum_projectiles':0
 		}
 		
 		epic_config = {
 			'player_health_deduction': 20,
-			'max_projectiles': 30
+			'inverse_projectile_probability': 5,
+			'max_projectiles': 30,
+			'minimum_projectiles':0
 		}
 		# decide which config to return
 		if self.selected_config == 'easy':
@@ -213,6 +219,7 @@ class Menu:
 			return hard_config
 		if self.selected_config == 'epic':
 			return epic_config
+
 	def mouse_interation(self):
 		self.ev = pygame.event.get()
 		for event in self.ev:
