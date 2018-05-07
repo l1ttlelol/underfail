@@ -8,8 +8,9 @@ import sys
 
 
 class Game:
-	def __init__(self, config):
+	def __init__(self, config, unlocks):
 		self.config = config
+		self.unlocks = unlocks
 
 	def run(self):
 		pygame.init()
@@ -115,11 +116,25 @@ class Game:
 			self.total_time = self.time_elapsed
 
 		if self.player_health < 1:
-			self.screen.fill(self.Black)
-			time_string = time.strftime("%M:%S", time.gmtime(self.total_time))
-			timetext = self.gameover_font.render(time_string, True, self.White)
-			timetext_size = self.gameover_font.size(time_string)
-			self.screen.blit(timetext,[(self.ScreenWidth/2)-timetext_size[0]/2,250])
+			self.game_over()
+
+
+	def game_over(self):
+		self.screen.fill(self.Black)
+		time_string = time.strftime("%M:%S", time.gmtime(self.total_time))
+		timetext = self.gameover_font.render(time_string, True, self.White)
+		timetext_size = self.gameover_font.size(time_string)
+		self.screen.blit(timetext,[(self.ScreenWidth/2)-timetext_size[0]/2,250])
+		if self.config['name'] == 'easy' and self.total_time > 60:
+			self.unlocks.append('hard')
+		if self.config['name'] == 'hard' and self.total_time > 60:
+			self.unlocks.append('epic')
+		if self.config['name'] == 'epic' and self.total_time > 60:
+			self.unlocks.append('legendary')
+		if self.config['name'] == 'legendary' and self.total_time > 60:
+			self.unlocks.append('godsent')
+		if self.config['name'] == 'godsent' and self.total_time > 30:
+			self.unlocks.append('devilsent')
 
 	def draw_health(self):
 
@@ -170,9 +185,9 @@ class Game:
 			self.clock.tick(60)
 
 class Menu:
-	def run(self):
+	def run(self, unlocks):
 		#do something
-
+		self.unlocks = unlocks
 		self.Black = (0,0,0)
 		self.White = (255,255,255)
 		self.yellow = (248,240,192)
@@ -199,6 +214,7 @@ class Menu:
 
 	def config(self):
 		easy_config = {
+			'name': 'easy',
 			'player_health_deduction': 5,
 			'inverse_projectile_probability': 10,
 			'max_projectiles': 10,
@@ -206,6 +222,7 @@ class Menu:
 		}
 
 		hard_config = {
+			'name': 'hard',
 			'player_health_deduction': 10,
 			'inverse_projectile_probability': 7,
 			'max_projectiles': 20,
@@ -213,6 +230,7 @@ class Menu:
 		}
 		
 		epic_config = {
+			'name': 'epic',
 			'player_health_deduction': 15,
 			'inverse_projectile_probability': 5,
 			'max_projectiles': 30,
@@ -220,6 +238,7 @@ class Menu:
 		}
 
 		legendary_config = {
+			'name': 'legendary',
 			'player_health_deduction': 20,
 			'inverse_projectile_probability': 3,
 			'max_projectiles': 40,
@@ -227,6 +246,7 @@ class Menu:
 		}
 
 		godsent_config = {
+			'name': 'godsent',
 			'player_health_deduction': 35,
 			'inverse_projectile_probability': 2,
 			'max_projectiles': 70,
@@ -234,6 +254,7 @@ class Menu:
 		}
 
 		devilsent_config = {
+			'name': 'devilsent',
 			'player_health_deduction': 50,
 			'inverse_projectile_probability': 1,
 			'max_projectiles': 85,
@@ -282,25 +303,38 @@ class Menu:
 		self.screen.fill(self.Black)
 
 
-		pygame.draw.rect(self.screen, self.White, self.easy_button_rect,2)
-		pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
-		pygame.draw.rect(self.screen, self.White, self.epic_button_rect,2)
-		pygame.draw.rect(self.screen, self.White, self.legendary_button_rect,2)
-		pygame.draw.rect(self.screen, self.yellow, self.godsent_button_rect,0)
-		pygame.draw.rect(self.screen, self.purple, self.devilsent_button_rect,0)
 
 		easy_text = self.font.render("Easy(learn)",True, self.White)
 		hard_text = self.font.render("Hard(apprentice)",True, self.White)
 		epic_text = self.font.render("Epic(sensei)",True, self.White)
 		legendary_text = self.font.render("Legendary(pure skill)",True, self.White)
-		godsent_text = self.font.render("GodSent(gods pawn)",True, self.Black)
-		devilsent_text = self.font.render("DevilSent(devils pawn)",True, self.White)
+		godsent_text = self.font.render("GodSent(god spawn)",True, self.Black)
+		devilsent_text = self.font.render("DevilSent(devil spawn)",True, self.White)
+
+			
+		pygame.draw.rect(self.screen, self.White, self.easy_button_rect,2)
 		self.screen.blit(easy_text,[300,300])
-		self.screen.blit(hard_text,[600,300])
-		self.screen.blit(epic_text,[900,300])
-		self.screen.blit(legendary_text,[1200,300])
-		self.screen.blit(godsent_text,[450,600])
-		self.screen.blit(devilsent_text,[1050,600])
+		
+		if 'hard' in self.unlocks:	
+			pygame.draw.rect(self.screen, self.White, self.hard_button_rect,2)
+			self.screen.blit(hard_text,[600,300])
+		
+		if 'epic' in self.unlocks:	
+			pygame.draw.rect(self.screen, self.White, self.epic_button_rect,2)
+			self.screen.blit(epic_text,[900,300])
+
+		if 'legendary' in self.unlocks:	
+			pygame.draw.rect(self.screen, self.White, self.legendary_button_rect,2)
+			self.screen.blit(legendary_text,[1200,300])
+		
+		if 'godsent' in self.unlocks:
+			pygame.draw.rect(self.screen, self.yellow, self.godsent_button_rect,0)
+			self.screen.blit(godsent_text,[450,600])
+
+		if 'devilsent' in self.unlocks:
+			pygame.draw.rect(self.screen, self.purple, self.devilsent_button_rect,0)
+			self.screen.blit(devilsent_text,[1050,600])
+
 
 	def loop(self):
 		self.done = False
@@ -317,14 +351,14 @@ class Menu:
 
 
 
-
+unlocks = []
 while True:
 	underfail_menu = Menu()
-	underfail_menu.run()
+	underfail_menu.run(unlocks)
 
 	config = underfail_menu.config()
 
-	underfail_game = Game(config)
+	underfail_game = Game(config, unlocks)
 	underfail_game.run()
 
 
